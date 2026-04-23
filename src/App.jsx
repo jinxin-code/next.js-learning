@@ -11,8 +11,9 @@
  */
 
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
-import UserList from './components/UserList'
-import UserDetail from './components/UserDetail'
+import UserList from './components/user/UserList'
+import UserDetail from './components/user/UserDetail'
+import ErrorBoundary from './components/common/ErrorBoundary'
 import './App.css'
 
 /**
@@ -26,25 +27,28 @@ import './App.css'
 
 function App() {
   return (
-    // Router组件：提供路由上下文，必须包裹所有路由相关组件
-    <Router>
-      <div className="app">
-        {/* Routes组件：包含所有路由规则的容器 */}
-        <Routes>
-          {/**
-           * Route组件：定义单个路由
-           * path: URL路径
-           * element: 当路径匹配时显示的组件
-           *
-           * React Router学习要点：
-           * 1. 动态路由参数使用冒号前缀，如 :id
-           * 2. 路由按顺序匹配，精确匹配使用 exact 属性（或React Router v6的默认行为）
-           */}
-          <Route path="/" element={<UserList />} />
-          <Route path="/user/:id" element={<UserDetail />} />
-        </Routes>
-      </div>
-    </Router>
+    {/* ErrorBoundary：捕获子组件的错误，防止整个应用崩溃 */}
+    <ErrorBoundary>
+      {/* Router组件：提供路由上下文，必须包裹所有路由相关组件 */}
+      <Router>
+        <div className="app">
+          {/* Routes组件：包含所有路由规则的容器 */}
+          <Routes>
+            {/**
+             * Route组件：定义单个路由
+             * path: URL路径
+             * element: 当路径匹配时显示的组件
+             *
+             * React Router学习要点：
+             * 1. 动态路由参数使用冒号前缀，如 :id
+             * 2. 路由按顺序匹配，精确匹配使用 exact 属性（或React Router v6的默认行为）
+             */}
+            <Route path="/" element={<UserList />} />
+            <Route path="/user/:id" element={<UserDetail />} />
+          </Routes>
+        </div>
+      </Router>
+    </ErrorBoundary>
   )
 }
 

@@ -167,6 +167,67 @@ This project uses the free REST API from [JSONPlaceholder](https://jsonplacehold
 
 ---
 
+## 项目优化 / Project Optimization
+
+为了提高项目的可维护性、性能和用户体验，对项目进行了以下优化：
+
+### 1. 目录结构优化 / Directory Structure Optimization
+
+- 重新组织目录结构，按功能模块划分
+- 创建 `services` 目录，集中管理 API 调用
+- 创建 `hooks` 目录，存放自定义 Hooks
+- 创建 `utils` 目录，存放工具函数
+- 优化组件目录结构，按功能分类
+
+### 2. API 服务层 / API Service Layer
+
+- 实现统一的 API 服务层，分离网络请求逻辑
+- 提供统一的错误处理机制
+- 简化组件代码，提高可维护性
+
+### 3. 自定义 Hooks / Custom Hooks
+
+- 创建 `useUsers` Hook，管理用户列表的状态和操作
+- 创建 `useUserDetail` Hook，管理用户详情的状态和操作
+- 复用业务逻辑，提高代码可维护性
+
+### 4. 组件拆分 / Component Splitting
+
+- 将 `UserList` 组件拆分为多个子组件：
+  - `SearchBar` - 搜索功能
+  - `FilterButtons` - 筛选功能
+  - `UserCard` - 用户卡片
+  - `EditForm` - 编辑表单
+  - `NewUserForm` - 新增用户表单
+- 提高组件的复用性和可维护性
+
+### 5. 错误处理 / Error Handling
+
+- 实现 `ErrorBoundary` 组件，捕获子组件的错误
+- 提供友好的错误提示界面
+- 提高应用的稳定性
+
+### 6. 表单验证 / Form Validation
+
+- 实现表单验证逻辑，确保数据的有效性
+- 显示友好的错误提示信息
+- 防止提交无效数据
+
+### 7. 用户体验优化 / User Experience Optimization
+
+- 添加加载状态显示
+- 添加动画效果，提升视觉体验
+- 实现响应式设计，适配不同屏幕尺寸
+- 优化按钮和交互元素的样式
+
+### 8. 代码质量 / Code Quality
+
+- 添加详细的代码注释
+- 遵循 React 最佳实践
+- 提高代码的可读性和可维护性
+
+---
+
 ## 贡献 / Contributing
 
 欢迎提出问题和改进建议！/ Issues and suggestions are welcome!
