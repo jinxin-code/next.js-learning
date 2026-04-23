@@ -1,3 +1,5 @@
+'use client';
+
 /**
  * UserList组件 - 用户列表页面
  * 

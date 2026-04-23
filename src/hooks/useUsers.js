@@ -1,26 +1,36 @@
+'use client';
+
 /**
  * useUsers Hook
- * 管理用户列表的状态和操作
+ * 管理用户列表数据和相关操作
  * 
  * 优化说明：
- * 1. 复用用户相关的业务逻辑
- * 2. 提供统一的状态管理
- * 3. 简化组件代码
+ * 1. 封装用户数据管理逻辑，提高代码复用性
+ * 2. 使用useCallback缓存函数，避免不必要的重渲染
+ * 3. 统一错误处理和加载状态管理
  */
 
 import { useState, useEffect, useCallback } from 'react';
 import { fetchUsers, updateUser, createUser, deleteUser } from '../services/api';
 
 export const useUsers = () => {
+  // 用户列表状态
   const [users, setUsers] = useState([]);
-  const [loading, setLoading] = useState(false);
+  // 加载状态
+  const [loading, setLoading] = useState(true);
+  // 错误状态
   const [error, setError] = useState(null);
 
+  // 初始化加载用户数据
+  useEffect(() => {
+    loadUsers();
+  }, []);
+
   // 加载用户列表
-  const loadUsers = useCallback(async () => {
-    setLoading(true);
-    setError(null);
+  const loadUsers = async () => {
     try {
+      setLoading(true);
+      setError(null);
       const data = await fetchUsers();
       setUsers(data);
     } catch (err) {
@@ -29,19 +39,16 @@ export const useUsers = () => {
     } finally {
       setLoading(false);
     }
-  }, []);
+  };
 
-  // 初始化加载用户列表
-  useEffect(() => {
-    loadUsers();
-  }, [loadUsers]);
-
-  // 更新用户
-  const handleUpdateUser = useCallback(async (id, userData) => {
+  // 更新用户信息
+  const handleUpdateUser = useCallback(async (userId, updatedData) => {
     try {
-      const updatedUser = await updateUser(id, userData);
+      const updatedUser = await updateUser(userId, updatedData);
       setUsers(prevUsers => 
-        prevUsers.map(user => user.id === id ? updatedUser : user)
+        prevUsers.map(user => 
+          user.id === userId ? updatedUser : user
+        )
       );
       return updatedUser;
     } catch (err) {
@@ -51,10 +58,10 @@ export const useUsers = () => {
     }
   }, []);
 
-  // 添加用户
-  const handleAddUser = useCallback(async (userData) => {
+  // 添加新用户
+  const handleAddUser = useCallback(async (newUserData) => {
     try {
-      const newUser = await createUser(userData);
+      const newUser = await createUser(newUserData);
       setUsers(prevUsers => [...prevUsers, newUser]);
       return newUser;
     } catch (err) {
@@ -65,11 +72,10 @@ export const useUsers = () => {
   }, []);
 
   // 删除用户
-  const handleDeleteUser = useCallback(async (id) => {
+  const handleDeleteUser = useCallback(async (userId) => {
     try {
-      await deleteUser(id);
-      setUsers(prevUsers => prevUsers.filter(user => user.id !== id));
-      return true;
+      await deleteUser(userId);
+      setUsers(prevUsers => prevUsers.filter(user => user.id !== userId));
     } catch (err) {
       setError(err);
       console.error('Error deleting user:', err);
@@ -81,9 +87,9 @@ export const useUsers = () => {
     users,
     loading,
     error,
-    loadUsers,
     handleUpdateUser,
     handleAddUser,
-    handleDeleteUser
+    handleDeleteUser,
+    loadUsers
   };
 };

@@ -1,3 +1,5 @@
+'use client';
+
 /**
  * UserDetail组件 - 用户详情页面
  * 
@@ -6,13 +8,10 @@
  * 2. 提高代码可维护性和可读性
  */
 
-import { useParams, Link } from 'react-router-dom';
+import Link from 'next/link';
 import { useUserDetail } from '../../../hooks/useUserDetail';
 
-const UserDetail = () => {
-  // 从URL参数中获取用户ID
-  const { id } = useParams();
-
+const UserDetail = ({ id }) => {
   // 使用自定义Hook管理用户详情数据
   const { user, loading, error } = useUserDetail(id);
 
@@ -33,7 +32,7 @@ const UserDetail = () => {
 
   return (
     <div className="user-detail">
-      <Link to="/" className="back-btn">Back to List</Link>
+      <Link href="/" className="back-btn">Back to List</Link>
       <h1>User Details</h1>
       <div className="detail-card">
         {/* 基本信息 */}

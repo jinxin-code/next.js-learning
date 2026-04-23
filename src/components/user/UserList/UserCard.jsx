@@ -7,7 +7,7 @@
  * 2. 独立管理单个用户卡片的UI逻辑
  */
 
-import { Link } from 'react-router-dom';
+import Link from 'next/link';
 
 const UserCard = ({ user, onEdit, onDelete }) => {
   return (
@@ -16,7 +16,7 @@ const UserCard = ({ user, onEdit, onDelete }) => {
       <p>Username: {user.username}</p>
       <p>Email: {user.email}</p>
       <div className="card-buttons">
-        <Link to={`/user/${user.id}`} className="view-btn">View Details</Link>
+        <Link href={`/user/${user.id}`} className="view-btn">View Details</Link>
         <button onClick={() => onEdit(user)} className="edit-btn">Edit</button>
         <button onClick={() => onDelete(user.id)} className="delete-btn">Delete</button>
       </div>
