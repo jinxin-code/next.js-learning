@@ -1,7 +1,7 @@
-# React 用户管理系统 / React User Management System
+# Next.js 用户管理系统 / Next.js User Management System
 
-一个基于 React + React Router 的用户管理应用，演示了 React 开发的核心概念和最佳实践。
-A React + React Router based user management application that demonstrates core React concepts and best practices.
+一个基于 Next.js 13+ App Router 的用户管理应用，演示了 React 和 Next.js 开发的核心概念和最佳实践。
+A Next.js 13+ App Router based user management application that demonstrates core React and Next.js concepts and best practices.
 
 ---
 
@@ -52,9 +52,8 @@ A React + React Router based user management application that demonstrates core 
 
 ## 技术栈 / Tech Stack
 
-- **React 18** - UI 框架 / UI Framework
-- **React Router v6** - 路由管理 / Routing
-- **Vite** - 构建工具和开发服务器 / Build tool and dev server
+- **React 19** - UI 框架 / UI Framework
+- **Next.js 16.2.4** - React 框架，提供服务端渲染、路由等功能 / React framework with SSR, routing, etc.
 - **Fetch API** - HTTP 请求 / HTTP Requests
 
 ---
@@ -65,13 +64,7 @@ A React + React Router based user management application that demonstrates core 
 
 - `useState` - 状态管理 / State management
 - `useEffect` - 副作用处理 / Side effect handling
-- `useParams` - 路由参数获取 / Route parameter retrieval
-
-### 路由 / Routing
-
-- `BrowserRouter` - 路由容器 / Routing container
-- `Routes` / `Route` - 路由定义 / Route definition
-- `Link` - 客户端导航链接 / Client-side navigation
+- `useCallback` - 函数缓存，优化性能 / Function caching for performance optimization
 
 ### 状态管理 / State Management
 
@@ -88,31 +81,79 @@ A React + React Router based user management application that demonstrates core 
 
 ---
 
+## Next.js 核心概念 / Next.js Core Concepts
+
+### App Router
+
+- **文件系统路由** - 基于目录结构自动生成路由 / File system-based routing
+- **页面组件** - 位于 `app` 目录中的组件 / Page components in `app` directory
+- **布局组件** - 共享 UI 结构，应用于多个页面 / Layout components for shared UI
+- **动态路由** - 使用方括号 `[]` 定义动态路由参数 / Dynamic routes with `[]`
+
+### 服务器组件与客户端组件
+
+- **服务器组件** - 默认情况下，页面组件是服务器组件，在服务端渲染 / Server Components (default for pages)
+- **客户端组件** - 添加 `'use client'` 指令，在客户端渲染，可使用浏览器 API / Client Components with `'use client'` directive
+
+### 路由导航
+
+- **Link 组件** - 客户端导航，支持预加载 / Client-side navigation with preloading
+- **动态路由** - 通过 `params` prop 访问路由参数 / Access route parameters via `params` prop
+
+### 性能优化
+
+- **自动代码分割** - 每个页面只加载必要的代码 / Automatic code splitting
+- **静态生成** - 预渲染页面，提高加载速度 / Static generation for faster loading
+- **服务端渲染** - 改善 SEO 和首屏加载 / Server-side rendering for better SEO and initial load
+
+---
+
 ## 项目结构 / Project Structure
 
 ```
 react-project/
-├── public/
+├── public/              # 静态资源 / Static assets
 │   ├── favicon.svg
 │   └── icons.svg
-├── src/
-│   ├── assets/
+├── src/                 # 源代码 / Source code
+│   ├── app/             # Next.js App Router 目录 / Next.js App Router directory
+│   │   ├── layout.jsx   # 根布局组件 / Root layout component
+│   │   ├── page.jsx     # 首页 / Home page
+│   │   └── user/        # 用户相关路由 / User-related routes
+│   │       └── [id]/    # 动态路由 / Dynamic route
+│   │           └── page.jsx  # 用户详情页 / User detail page
+│   ├── assets/          # 资源文件 / Asset files
 │   │   ├── hero.png
 │   │   ├── react.svg
 │   │   └── vite.svg
-│   ├── components/
-│   │   ├── UserDetail.jsx    # 用户详情组件 / User detail component
-│   │   └── UserList.jsx       # 用户列表组件 / User list component
-│   ├── App.css                # 应用样式 / App styles
-│   ├── App.jsx                # 根组件 / Root component
-│   ├── index.css              # 全局样式 / Global styles
-│   └── main.jsx               # 应用入口 / App entry
-├── .gitignore
-├── eslint.config.js
-├── index.html
-├── package.json
-├── package-lock.json
-└── vite.config.js
+│   ├── components/      # 组件 / Components
+│   │   ├── common/      # 通用组件 / Common components
+│   │   │   └── ErrorBoundary.jsx  # 错误边界组件 / Error boundary component
+│   │   └── user/        # 用户相关组件 / User-related components
+│   │       ├── UserDetail/  # 用户详情组件 / User detail component
+│   │       │   └── index.jsx
+│   │       └── UserList/    # 用户列表组件 / User list component
+│   │           ├── EditForm.jsx      # 编辑表单 / Edit form
+│   │           ├── FilterButtons.jsx # 筛选按钮 / Filter buttons
+│   │           ├── NewUserForm.jsx   # 新增用户表单 / New user form
+│   │           ├── SearchBar.jsx     # 搜索栏 / Search bar
+│   │           ├── UserCard.jsx      # 用户卡片 / User card
+│   │           └── index.jsx         # 用户列表主组件 / User list main component
+│   ├── hooks/           # 自定义 Hooks / Custom hooks
+│   │   ├── useUserDetail.js  # 用户详情 Hook / User detail hook
+│   │   └── useUsers.js       # 用户列表 Hook / User list hook
+│   ├── services/        # API 服务 / API services
+│   │   └── api.js       # API 调用封装 / API call utilities
+│   ├── utils/           # 工具函数 / Utility functions
+│   │   └── validation.js # 表单验证 / Form validation
+│   ├── App.css          # 应用样式 / App styles
+│   └── index.css        # 全局样式 / Global styles
+├── .gitignore           # Git 忽略文件 / Git ignore file
+├── eslint.config.js     # ESLint 配置 / ESLint configuration
+├── next.config.js       # Next.js 配置 / Next.js configuration
+├── package.json         # 项目配置和依赖 / Project config and dependencies
+├── package-lock.json    # 依赖版本锁定 / Dependency version lock
+└── README.md            # 项目说明 / Project documentation
 ```
 
 ---
@@ -132,7 +173,7 @@ npm install
 npm run dev
 ```
 
-访问 http://localhost:5173 查看应用 / Visit http://localhost:5173 to view the application.
+访问 http://localhost:3000 查看应用 / Visit http://localhost:3000 to view the application.
 
 ### 构建生产版本 / Build for Production
 
@@ -140,7 +181,13 @@ npm run dev
 npm run build
 ```
 
-构建产物将输出到 `dist` 目录 / Build output will be in the `dist` directory.
+构建产物将输出到 `.next` 目录 / Build output will be in the `.next` directory.
+
+### 启动生产服务器 / Start Production Server
+
+```bash
+npm start
+```
 
 ---
 
@@ -159,11 +206,13 @@ This project uses the free REST API from [JSONPlaceholder](https://jsonplacehold
 
 ## 学习建议 / Learning Path
 
-1. **从 App.jsx 开始** / **Start with App.jsx** - 了解 React Router 的基本配置 / Learn React Router basic configuration
-2. **阅读 UserList.jsx** - 学习 Hooks 使用、状态管理、事件处理 / Learn Hooks usage, state management, event handling
-3. **阅读 UserDetail.jsx** - 学习路由参数获取、条件渲染 / Learn route parameter retrieval, conditional rendering
-4. **尝试修改代码** / **Try modifying code** - 添加新功能或修改现有功能 / Add new features or modify existing ones
-5. **阅读代码注释** / **Read code comments** - 每个关键概念都有详细的中文注释说明 / Each key concept has detailed comments
+1. **从 App Router 结构开始** / **Start with App Router structure** - 了解 Next.js 的文件系统路由 / Learn Next.js file system routing
+2. **阅读 layout.jsx** - 学习布局组件的使用 / Learn layout component usage
+3. **阅读 page.jsx 文件** - 学习页面组件和动态路由 / Learn page components and dynamic routes
+4. **阅读 UserList 组件** - 学习 Hooks 使用、状态管理、事件处理 / Learn Hooks usage, state management, event handling
+5. **阅读 UserDetail 组件** - 学习动态路由参数传递 / Learn dynamic route parameter passing
+6. **尝试修改代码** / **Try modifying code** - 添加新功能或修改现有功能 / Add new features or modify existing ones
+7. **阅读代码注释** / **Read code comments** - 每个关键概念都有详细的中文注释说明 / Each key concept has detailed comments
 
 ---
 
@@ -223,7 +272,7 @@ This project uses the free REST API from [JSONPlaceholder](https://jsonplacehold
 ### 8. 代码质量 / Code Quality
 
 - 添加详细的代码注释
-- 遵循 React 最佳实践
+- 遵循 React 和 Next.js 最佳实践
 - 提高代码的可读性和可维护性
 
 ---
